@@ -67,26 +67,11 @@ COPY --from=build-stage /app/build/ /usr/share/nginx/html
 # Copy default certs
 COPY --from=build-stage /etc/ssl/private/ /etc/nginx/ssl/live/host
 
-# Copy nginx config & entrypoint
-COPY ./conf /conf
 COPY script/entrypoint.sh /script/entrypoint.sh
 
-# Generate Diffie-Hellman parameters
-RUN openssl dhparam -out /etc/nginx/dhparam.pem 2048
-
-# Make entrypoint executable
 RUN chmod +x /script/entrypoint.sh
-
 WORKDIR /script
 
-# Environment variables
-ENV DATA_UPLOAD_MAX_MEMORY_SIZE=12582912
-ENV KENON_HOST="localhost"
-ENV PUBLIC_URL="front"
-ENV REACT_APP_API_URL="api"
-ENV ROOT_MOBILEAPI="rest"
-ENV FORCE_RELOAD=""
-ENV OPENSEARCH_PROXY_ROOT="opensearch"
 
-# Entrypoint + default CMD
+
 ENTRYPOINT ["/bin/bash", "/script/entrypoint.sh"]
