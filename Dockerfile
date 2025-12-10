@@ -27,8 +27,8 @@ ENV GENERATE_SOURCEMAP=true
 ENV KENON_CONF_JSON=${KENON_CONF_JSON}
 ENV NODE_ENV=production
 
-## Instala todas as dependências, incluindo devDependencies
-RUN npm install --legacy-peer-deps --include=dev
+## Atualiza o npm e instala todas as dependências
+RUN npm install -g npm@latest && npm install --legacy-peer-deps
 
 # Install missing peer dependencies for MUI & material-table
 RUN npm install \
