@@ -88,11 +88,5 @@ ENV ROOT_MOBILEAPI="rest"
 ENV FORCE_RELOAD=""
 ENV OPENSEARCH_PROXY_ROOT="opensearch"
 
-# Fix entrypoint to use 'start' by default
-RUN sed -i '/^case "\$1" in/a \
-  "" ) \
-    set -- start ;;' /script/entrypoint.sh
-
 # Entrypoint + default CMD
 ENTRYPOINT ["/bin/bash", "/script/entrypoint.sh"]
-CMD ["nginx", "-g", "daemon off;"]
