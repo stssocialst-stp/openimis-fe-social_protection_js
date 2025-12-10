@@ -3,12 +3,10 @@ name: ESLint
 on:
   push:
     branches:
-      - main
-      - develop
+      - stp-changes
   pull_request:
     branches:
-      - main
-      - develop
+      - stp-changes
 
 jobs:
   lint:

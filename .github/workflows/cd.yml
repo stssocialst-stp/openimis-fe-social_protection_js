@@ -1,0 +1,50 @@
+name: deploy-frontend-staging
+
+on:
+  workflow_run:
+    workflows: ["build-frontend-staging"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  deploy:
+    name: Deploy Frontend to Staging
+    runs-on: [self-hosted]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Login to GHCR (runner)
+        run: |
+          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USER }} --password-stdin
+
+      - name: Deploy via SSH (manual)
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USER }} --password-stdin
+
+            docker pull ghcr.io/${{ github.repository_owner }}/kenon-social-protection-frontend:latest
+
+            docker stop kenon-social-protection-frontend || true
+            docker rm kenon-social-protection-frontend || true
+
+            docker run -d \
+              --name kenon-social-protection-frontend \
+              --restart unless-stopped \
+              -p 4007:80 \
+              ghcr.io/${{ github.repository_owner }}/kenon-social-protection-frontend:latest
+
+            docker image prune -f
+            docker logout ghcr.io
+          EOF
