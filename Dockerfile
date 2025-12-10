@@ -30,28 +30,6 @@ ENV NODE_ENV=production
 ## Instala todas as dependências usando o npm padrão da imagem
 RUN npm install --legacy-peer-deps
 
-# Install missing peer dependencies for MUI & material-table
-RUN npm install \
-    @material-table/core \
-    @material-ui/core \
-    @material-ui/icons \
-    @material-ui/lab \
-    @material-ui/pickers \
-    @material-ui/styles \
-    @mui/material \
-    @mui/lab \
-    @mui/icons-material \
-    @mui/styles \
-    @mui/system \
-    @mui/utils \
-    @mui/x-date-pickers \
-    @emotion/react \
-    @emotion/styled \
-    @emotion/cache \
-    --legacy-peer-deps || true
-
-# Alias material-table
-RUN cd node_modules && ln -sf @material-table/core material-table || true
 
 # Build frontend
 RUN npm run build
