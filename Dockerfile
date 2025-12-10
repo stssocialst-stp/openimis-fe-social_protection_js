@@ -21,14 +21,18 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -out /etc/ssl/private/fullchain.pem \
     -subj "/C=ST/ST=SaoTome/L=SaoTome/O=STSSTP/OU=IT/CN=localhost"
 
+
 USER node
 ARG KENON_CONF_JSON
 ENV GENERATE_SOURCEMAP=true
 ENV KENON_CONF_JSON=${KENON_CONF_JSON}
-ENV NODE_ENV=production
+
 
 ## Instala todas as dependências usando o npm padrão da imagem
 RUN npm install --legacy-peer-deps
+
+# Só agora define NODE_ENV=production para o restante do build
+ENV NODE_ENV=production
 
 
 # Build frontend
