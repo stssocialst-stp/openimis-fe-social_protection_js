@@ -38,11 +38,27 @@ ENV NODE_ENV=production
 # Build frontend
 RUN npm run build
 
+# Provide a minimal index.html so Nginx can serve the app
+RUN mkdir -p /app/dist && cat > /app/dist/index.html << 'HTML'
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>kenon-social-protection-frontend</title>
+    </head>
+    <body>
+        <div id="root">This is a build of kenon-social-protection-frontend.</div>
+        <script type="module" src="/index.es.js"></script>
+    </body>
+</html>
+HTML
+
 ## ---- NGINX Stage ----
 FROM nginx:latest
 
-# Copy built app
-COPY --from=build-stage /app/build/ /usr/share/nginx/html
+# Copy built app (rollup outputs into `dist/`)
+COPY --from=build-stage /app/dist/ /usr/share/nginx/html
 
 # Copy default certs
 COPY --from=build-stage /etc/ssl/private/ /etc/nginx/ssl/live/host
