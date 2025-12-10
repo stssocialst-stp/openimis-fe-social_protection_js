@@ -7,8 +7,9 @@ COPY ./ /app
 WORKDIR /app
 RUN chown node /app -R
 
-# Install serve for static hosting
-RUN npm install --global serve
+
+# Install serve and rollup for static hosting/build
+RUN npm install --global serve rollup
 
 # Install system packages
 RUN apt-get update && apt-get install -y nano openssl software-properties-common \
