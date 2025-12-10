@@ -13,7 +13,7 @@
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
     "start": "rollup -c rollup.config.mjs -w",
-    "format": "prettier src -w",
+    "format": "prettier src -w"
   },
   "peerDependency": {
     "react-intl": "^5.8.1"
