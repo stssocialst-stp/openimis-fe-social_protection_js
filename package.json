@@ -1,14 +1,20 @@
 {
-  "name": "@openimis/fe-social_protection",
+  "name": "@stssocialst-stp/fe-social_protection",
   "version": "0.1.0",
   "license": "AGPL-3.0-only",
   "description": "openIMIS Frontend Social Protection module",
-  "repository": "openimis/openimis-fe-social_protection_js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stssocialst-stp/openimis-fe-social_protection_js"
+  },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   },
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
