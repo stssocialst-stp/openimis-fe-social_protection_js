@@ -1,6 +1,6 @@
 {
   "name": "@stssocialst-stp/fe-social_protection",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "AGPL-3.0-only",
   "description": "openIMIS Frontend Social Protection module",
   "repository": {
@@ -19,7 +19,9 @@
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
     "start": "rollup -c rollup.config.mjs -w",
-    "format": "prettier src -w"
+    "format": "prettier src -w",
+    "prepublishOnly": "npm run build",
+    "prepare": "npm run build"
   },
   "peerDependency": {
     "react-intl": "^5.8.1"
@@ -46,7 +48,8 @@
     "rollup": "^2.10.0"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "dependencies": {}
 }
