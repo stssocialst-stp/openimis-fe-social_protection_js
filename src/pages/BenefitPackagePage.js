@@ -6,7 +6,7 @@ import {
   formatMessageWithValues,
   useHistory,
   useModulesManager,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import { injectIntl } from 'react-intl';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import BenefitPackageTabPanel from '../components/BenefitPackageTabPanel';

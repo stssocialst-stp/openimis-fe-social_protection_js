@@ -10,7 +10,7 @@ import {
   CLEARED_STATE_FILTER,
   useModulesManager,
   useHistory,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {

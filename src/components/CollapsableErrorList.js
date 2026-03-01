@@ -4,7 +4,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import {
   formatMessage,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import {
   ListItem,
   ListItemText,

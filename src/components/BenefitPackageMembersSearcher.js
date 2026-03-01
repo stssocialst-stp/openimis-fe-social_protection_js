@@ -7,7 +7,7 @@ import {
   Searcher,
   downloadExport,
   CLEARED_STATE_FILTER,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import {
   IconButton,
   Tooltip,

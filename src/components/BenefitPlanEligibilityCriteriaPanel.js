@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   decodeId, fetchCustomFilter, PublishedComponent, useModulesManager, useTranslations,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import { makeStyles } from '@material-ui/styles';
 import AddCircle from '@material-ui/icons/Add';
 import {

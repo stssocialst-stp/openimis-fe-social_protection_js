@@ -3,7 +3,7 @@ import { TextField, Tooltip } from '@material-ui/core';
 
 import {
   Autocomplete, useModulesManager, useTranslations, useGraphqlQuery,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import { BENEFIT_PLANS_QUANTITY_LIMIT, BENEFIT_PLAN_TYPE } from '../constants';
 
 function BenefitPlanPicker(props) {

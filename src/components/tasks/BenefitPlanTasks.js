@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, useModulesManager, useTranslations } from '@openimis/fe-core';
+import { FormattedMessage, useModulesManager, useTranslations } from '@stssocialst-stp/fe-core';
 import { MODULE_NAME } from '../../constants';
 
 const BenefitPlanTaskTableHeaders = () => [

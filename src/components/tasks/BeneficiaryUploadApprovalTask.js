@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Paper, Fab, makeStyles } from '@material-ui/core';
 import { fetchPendingBeneficiaryUploads, resolveTask } from '../../actions';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Table, coreConfirm, SelectDialog } from "@openimis/fe-core";
+import { Table, coreConfirm, SelectDialog } from "@stssocialst-stp/fe-core";
 import { Grid, Checkbox, FormControlLabel, Divider, GridItem } from "@material-ui/core";
 import { TASK_STATUS, APPROVED, FAILED } from "../../constants";
 import ClearIcon from '@material-ui/icons/Clear';
@@ -16,7 +16,7 @@ import {
     TextInput,
     formatMessage,
     formatMessageWithValues,
-  } from "@openimis/fe-core";
+  } from "@stssocialst-stp/fe-core";
 import { useIntl } from "react-intl";
 
 

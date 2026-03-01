@@ -3,7 +3,7 @@ import _debounce from 'lodash/debounce';
 import { injectIntl } from 'react-intl';
 import { Grid } from '@material-ui/core';
 import { withTheme, withStyles } from '@material-ui/core/styles';
-import { TextInput, PublishedComponent } from '@openimis/fe-core';
+import { TextInput, PublishedComponent } from '@stssocialst-stp/fe-core';
 import { CONTAINS_LOOKUP, DEFAULT_DEBOUNCE_TIME, EMPTY_STRING } from '../constants';
 import { defaultFilterStyles } from '../util/styles';
 

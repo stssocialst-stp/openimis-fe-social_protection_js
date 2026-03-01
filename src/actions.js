@@ -7,7 +7,7 @@ import {
   formatGQLString,
   graphqlWithVariables,
   prepareMutation,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import { ACTION_TYPE } from './reducer';
 import {
   CLEAR, ERROR, REQUEST, SUCCESS,
@@ -453,7 +453,7 @@ export const clearGroupBeneficiaryExport = () => (dispatch) => {
 };
 
 // formatTaskResolveGQL and  resolveTask are exact copy of one from tasksManagement.
-// However, import from other @openimis/fe-{modue} than fe-core is not possible.
+// However, import from other @stssocialst-stp/fe-{modue} than fe-core is not possible.
 export const formatTaskResolveGQL = (task, user, approveOrFail, additionalData) => `
   ${task?.id ? `id: "${task.id}"` : ''}
   ${user && approveOrFail ? `businessStatus: "{\\"${user.id}\\": \\"${approveOrFail}\\"}"` : ''}

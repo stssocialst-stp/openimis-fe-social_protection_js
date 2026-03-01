@@ -8,7 +8,7 @@ import {
   clearConfirm,
   journalize,
   withModulesManager,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

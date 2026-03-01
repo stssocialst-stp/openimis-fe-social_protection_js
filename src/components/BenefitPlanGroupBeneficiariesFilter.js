@@ -2,7 +2,7 @@ import React from 'react';
 import { injectIntl } from 'react-intl';
 import { Grid } from '@material-ui/core';
 import { withTheme, withStyles } from '@material-ui/core/styles';
-import { formatMessage, TextInput } from '@openimis/fe-core';
+import { formatMessage, TextInput } from '@stssocialst-stp/fe-core';
 import _debounce from 'lodash/debounce';
 import { defaultFilterStyles } from '../util/styles';
 import BeneficiaryStatusPicker from '../pickers/BeneficiaryStatusPicker';

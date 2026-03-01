@@ -9,7 +9,7 @@ import {
   NumberInput,
   FormPanel,
   formatMessage,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import PreviewIcon from '@material-ui/icons/ListAlt';
 import { injectIntl } from 'react-intl';
 import { withTheme, withStyles } from '@material-ui/core/styles';

@@ -29,7 +29,7 @@ export default {
 		/^@babel.*/,
 		/^@date-io\/.*/,
 		/^@material-ui\/.*/,
-		/^@openimis.*/,
+		/^@stssocialst-stp.*/,
 		'classnames',
 		'clsx',
 		'history',

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Paper, Grid } from '@material-ui/core';
-import { Contributions } from '@openimis/fe-core';
+import { Contributions } from '@stssocialst-stp/fe-core';
 import { injectIntl } from 'react-intl';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import {

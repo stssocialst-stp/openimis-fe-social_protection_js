@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import {
   formatMessage, PublishedComponent, ProgressOrError,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import { useSelector } from 'react-redux';
 
 const styles = (theme) => ({

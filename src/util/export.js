@@ -1,4 +1,4 @@
-import { baseApiUrl } from '@openimis/fe-core';
+import { baseApiUrl } from '@stssocialst-stp/fe-core';
 
 function downloadFile(url, filename) {
   fetch(url)

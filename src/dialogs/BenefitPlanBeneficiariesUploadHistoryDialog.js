@@ -10,7 +10,7 @@ import {
   formatDateTimeFromISO,
   ProgressOrError,
   withModulesManager,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import {
   TableHead,
   TableBody,

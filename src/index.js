@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
-import { FormattedMessage } from '@openimis/fe-core';
+import { FormattedMessage } from '@stssocialst-stp/fe-core';
 import messages_en from './translations/en.json';
 import reducer from './reducer';
 import BenefitPlanMainMenu from './menus/BenefitPlanMainMenu';

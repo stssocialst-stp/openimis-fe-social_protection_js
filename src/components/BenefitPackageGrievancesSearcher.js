@@ -3,7 +3,7 @@ import { injectIntl } from 'react-intl';
 import {
   formatMessageWithValues,
   Searcher,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DEFAULT_PAGE_SIZE, ROWS_PER_PAGE_OPTIONS } from '../constants';

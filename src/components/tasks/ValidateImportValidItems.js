@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from '@openimis/fe-core';
+import { FormattedMessage } from '@stssocialst-stp/fe-core';
 
 const ValidateImportValidItemsTaskTableHeaders = () => [
   <FormattedMessage module="socialProtection" id="benefitUploadRecord.benefitPlanCode" />,

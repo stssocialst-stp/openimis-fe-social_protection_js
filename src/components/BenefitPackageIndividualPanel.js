@@ -10,7 +10,7 @@ import {
   formatMessage,
   createFieldsBasedOnJSON,
   renderInputComponent,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import { Person } from '@material-ui/icons';
 import { injectIntl } from 'react-intl';
 import { withTheme, withStyles } from '@material-ui/core/styles';

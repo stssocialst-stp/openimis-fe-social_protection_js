@@ -3,7 +3,7 @@ import { Tab } from '@material-ui/core';
 import {
   formatMessage, PublishedComponent,
   useModulesManager,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import { BENEFIT_PLAN_TASK_TAB_VALUE, BENEFIT_PLAN_LABEL, TASK_CONTRIBUTION_KEY } from '../constants';
 
 function BenefitPlanTaskTabLabel({

@@ -5,7 +5,7 @@ import {
 import { injectIntl } from 'react-intl';
 import {
   Contributions, useHistory, useModulesManager, useTranslations,
-} from '@openimis/fe-core';
+} from '@stssocialst-stp/fe-core';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   BENEFIT_PLAN_BENEFICIARIES_LIST_TAB_VALUE,

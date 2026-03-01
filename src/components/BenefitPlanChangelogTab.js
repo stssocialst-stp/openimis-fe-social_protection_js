@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tab } from '@material-ui/core';
-import { formatMessage, PublishedComponent } from '@openimis/fe-core';
+import { formatMessage, PublishedComponent } from '@stssocialst-stp/fe-core';
 import { BENEFIT_PLAN_CHANGELOG_TAB_VALUE } from '../constants';
 
 function BenefitPlanChangelogTabLabel({

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SelectInput, formatMessage } from '@openimis/fe-core';
+import { SelectInput, formatMessage } from '@stssocialst-stp/fe-core';
 import { injectIntl } from 'react-intl';
 
 function WorkflowsPicker({
