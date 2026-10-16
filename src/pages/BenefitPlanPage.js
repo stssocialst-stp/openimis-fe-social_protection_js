@@ -8,8 +8,6 @@ import {
   clearConfirm,
   journalize,
   withModulesManager,
-  apiHeaders,
-  baseApiUrl,
   coreAlert,
 } from '@stssocialst-stp/fe-core';
 import { injectIntl } from 'react-intl';
@@ -22,6 +20,7 @@ import PauseIcon from '@material-ui/icons/Pause';
 import SyncIcon from '@material-ui/icons/Sync';
 import {
   BENEFIT_PLAN_BENEFICIARIES_LIST_TAB_VALUE,
+  BENEFIT_PLAN_TYPE,
   RIGHT_BENEFICIARY_SEARCH,
   RIGHT_BENEFIT_PLAN_UPDATE,
 } from '../constants';
@@ -32,6 +31,7 @@ import BenefitPlanHeadPanel from '../components/BenefitPlanHeadPanel';
 import BenefitPlanTabPanel from '../components/BenefitPlanTabPanel';
 import { ACTION_TYPE } from '../reducer';
 import BenefitPlanEligibilityCriteriaPanel from '../components/BenefitPlanEligibilityCriteriaPanel';
+import sincronizarBeneficiarios from '../util/sync-beneficiaries';
 
 const styles = (theme) => ({
   page: theme.page,
@@ -42,6 +42,7 @@ function BenefitPlanPage({
   intl,
   classes,
   rights,
+  user,
   history,
   benefitPlanUuid,
   benefitPlan,
@@ -65,7 +66,23 @@ function BenefitPlanPage({
   const [editedBenefitPlan, setEditedBenefitPlan] = useState({});
   const [confirmedAction, setConfirmedAction] = useState(() => null);
   const [reset, setReset] = useState(() => false);
+  const [syncBeneficiariesRunning, setSyncBeneficiariesRunning] = useState(false);
   const prevSubmittingMutationRef = useRef();
+
+  // O backend exige `is_staff`. O endpoint /core/users/current_user/ pode (ou não) expor
+  // uma flag de administrador. Se expuser, respeitamo-la; se não, deixamos o backend decidir (403).
+  const currentUser = user?.i_user ?? user;
+  const adminFlags = [
+    currentUser?.is_staff,
+    currentUser?.isStaff,
+    currentUser?.is_superuser,
+    currentUser?.isSuperuser,
+  ];
+  const hasAdminInfo = adminFlags.some((flag) => flag !== undefined);
+  const isBenefitPlanAdmin = hasAdminInfo ? adminFlags.some((flag) => flag === true) : true;
+  const canSyncBeneficiaries = !!benefitPlan
+    && benefitPlan.type === BENEFIT_PLAN_TYPE.GROUP
+    && isBenefitPlanAdmin;
 
   useEffect(() => {
     if (benefitPlanUuid) {
@@ -186,31 +203,27 @@ function BenefitPlanPage({
     );
   };
 
-  // Sincroniza os beneficiários do Benefit Plan.
-  // Endpoint REST a implementar pelo backend:
-  //   POST {baseApiUrl}/social_protection/sync_beneficiaries/
-  //   multipart/form-data: benefit_plan=<uuid>
+  // Dispara a sincronização de beneficiários no programa aberto:
+  //   fase A remove os GroupBeneficiary cujo agregado ficou sem chefe activo;
+  //   fase B cria GroupBeneficiary ACTIVE para cada agregado com chefe activo.
+  // Corre em background: o REST devolve 202 + clientMutationId e depois fazemos poll a
+  // mutationLogs até status 2 (sucesso) ou 1 (erro).
   const syncBeneficiariesCallback = async () => {
-    const formData = new FormData();
-    formData.append('benefit_plan', benefitPlan?.id);
+    setSyncBeneficiariesRunning(true);
     try {
-      const response = await fetch(`${baseApiUrl}/social_protection/sync_beneficiaries/`, {
-        method: 'POST',
-        headers: apiHeaders,
-        body: formData,
-        credentials: 'same-origin',
-      });
-      if (response.ok) {
+      const result = await sincronizarBeneficiarios(benefitPlan?.id);
+      if (result.ok) {
         coreAlert(
           formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.alert.header'),
           formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.alert.success'),
         );
+        // Recarrega a lista de beneficiários (fetchGroupBeneficiaries) e os totais das abas.
+        window.location.reload();
         return;
       }
-      const payload = await response.json().catch(() => ({}));
       coreAlert(
         formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.alert.header'),
-        payload?.message
+        result?.message
           || formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.alert.error'),
       );
     } catch (error) {
@@ -219,6 +232,7 @@ function BenefitPlanPage({
         formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.alert.error'),
       );
     }
+    setSyncBeneficiariesRunning(false);
   };
 
   const openSyncBeneficiariesConfirmDialog = () => {
@@ -246,10 +260,11 @@ function BenefitPlanPage({
   };
 
   const actions = [
-    !!benefitPlan && {
+    canSyncBeneficiaries && {
       doIt: openSyncBeneficiariesConfirmDialog,
       icon: <SyncIcon />,
       tooltip: formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.tooltip'),
+      disabled: syncBeneficiariesRunning,
     }, !!benefitPlan && {
       doIt: openDeleteBenefitPlanConfirmDialog,
       icon: <DeleteIcon />,
@@ -299,6 +314,7 @@ function BenefitPlanPage({
 
 const mapStateToProps = (state, props) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
+  user: state.core?.user,
   benefitPlanUuid: props.match.params.benefit_plan_uuid,
   confirmed: state.core.confirmed,
   fetchingBenefitPlans: state.socialProtection.fetchingBenefitPlans,
