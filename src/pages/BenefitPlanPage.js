@@ -8,6 +8,9 @@ import {
   clearConfirm,
   journalize,
   withModulesManager,
+  apiHeaders,
+  baseApiUrl,
+  coreAlert,
 } from '@stssocialst-stp/fe-core';
 import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
@@ -16,6 +19,7 @@ import _ from 'lodash';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PauseIcon from '@material-ui/icons/Pause';
+import SyncIcon from '@material-ui/icons/Sync';
 import {
   BENEFIT_PLAN_BENEFICIARIES_LIST_TAB_VALUE,
   RIGHT_BENEFICIARY_SEARCH,
@@ -182,6 +186,52 @@ function BenefitPlanPage({
     );
   };
 
+  // Sincroniza os beneficiários do Benefit Plan.
+  // Endpoint REST a implementar pelo backend:
+  //   POST {baseApiUrl}/social_protection/sync_beneficiaries/
+  //   multipart/form-data: benefit_plan=<uuid>
+  const syncBeneficiariesCallback = async () => {
+    const formData = new FormData();
+    formData.append('benefit_plan', benefitPlan?.id);
+    try {
+      const response = await fetch(`${baseApiUrl}/social_protection/sync_beneficiaries/`, {
+        method: 'POST',
+        headers: apiHeaders,
+        body: formData,
+        credentials: 'same-origin',
+      });
+      if (response.ok) {
+        coreAlert(
+          formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.alert.header'),
+          formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.alert.success'),
+        );
+        return;
+      }
+      const payload = await response.json().catch(() => ({}));
+      coreAlert(
+        formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.alert.header'),
+        payload?.message
+          || formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.alert.error'),
+      );
+    } catch (error) {
+      coreAlert(
+        formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.alert.header'),
+        formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.alert.error'),
+      );
+    }
+  };
+
+  const openSyncBeneficiariesConfirmDialog = () => {
+    setConfirmedAction(() => syncBeneficiariesCallback);
+    coreConfirm(
+      formatMessageWithValues(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.confirm.title', {
+        code: benefitPlan?.code,
+        name: benefitPlan?.name,
+      }),
+      formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.confirm.message'),
+    );
+  };
+
   const [childActiveTab, setChildActiveTab] = useState(BENEFIT_PLAN_BENEFICIARIES_LIST_TAB_VALUE);
 
   const getBenefitPlanPanels = () => {
@@ -197,6 +247,10 @@ function BenefitPlanPage({
 
   const actions = [
     !!benefitPlan && {
+      doIt: openSyncBeneficiariesConfirmDialog,
+      icon: <SyncIcon />,
+      tooltip: formatMessage(intl, 'socialProtection', 'benefitPlan.syncBeneficiaries.tooltip'),
+    }, !!benefitPlan && {
       doIt: openDeleteBenefitPlanConfirmDialog,
       icon: <DeleteIcon />,
       tooltip: formatMessage(intl, 'socialProtection', 'deleteButtonTooltip'),
